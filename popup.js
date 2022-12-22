@@ -17,7 +17,9 @@ function createAlarm(event){
     
     // Create the alarm
     chrome.alarms.create({periodInMinutes: minutes});
-    chrome.storage.sync.set({minutes: minutes});
+    chrome.storage.sync.set({minutes: minutes}).then(()=>{
+      console.log("value is set to: + minutes");
+    });
     //window.close();
 }
 
@@ -33,6 +35,9 @@ function changeIcon(chosenIcon){
     chrome.runtime.sendMessage({
         icon:`${chosenIcon}`
     });
+    chrome.storage.sync.set({theme:chosenIcon}, function(){
+      console.log("Theme saved to storage: " + chosenIcon);
+    });
     alert("Notification icon has been changed");
 }
 
@@ -47,10 +52,22 @@ time.addEventListener("click", ()=> {time.value = select.value;} );
 time.addEventListener("click", createAlarm);
 
 // Buttons clicked will change notif icon and create alert box
-default_option.addEventListener("click", () => changeIcon('default'));
-dogs.addEventListener("click", () => changeIcon('dogs'));
-cats.addEventListener("click", () => changeIcon('cats'));
-auntie.addEventListener("click", () => changeIcon('asian'));
+default_option.addEventListener("click", () => {
+  changeIcon('default');
+  console.log("Theme changed to default");
+});
+dogs.addEventListener("click", () => {
+  changeIcon('dogs');
+  console.log("Theme changed to dogs");
+});
+cats.addEventListener("click", () => {
+  changeIcon('cats');
+  console.log("Theme changed to cats");
+});
+auntie.addEventListener("click", () => {
+  changeIcon('asian');
+  console.log("Theme changed to asian mum");
+});
 
 // Call cancelAlarm function when clicked
 document.getElementById("cancel").addEventListener("click", cancelAlarm);

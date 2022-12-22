@@ -11,6 +11,9 @@ chrome.runtime.onInstalled.addListener(function (object) {
           console.log("New tab launched with your site");
       });
   }
+  chrome.storage.sync.get(["theme"], function(items){
+    console.log("Retrieved theme from storage: " + items.theme);
+  })
 });
 
 // Array of all messages
@@ -50,6 +53,7 @@ function chooseCat(){
 let theme = "default";
 
 chrome.runtime.onMessage.addListener(function(request, sender,sendResponse){
+  console.log("Received message to change icon to " + request.icon);
   if (request.icon === "dogs"){
     theme = "doggo";
   }
