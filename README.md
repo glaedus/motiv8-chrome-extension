@@ -4,6 +4,9 @@ A chrome extension which sends notifications containing positive messages
 
 <h1 align="center">
   <img src="https://github.com/glaedus/motiv8-chrome-extension/blob/main/img/icon/motiv8_circle.png?raw=true" alt="Motiv8" width="200">
+  <br>
+  <br>
+  <img src="https://github.com/glaedus/motiv8-chrome-extension/blob/main/img/demo.gif?raw=true" alt="demo" width="2000">
 </h1>
 
 ## Features
