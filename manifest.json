@@ -1,0 +1,19 @@
+  {
+    "manifest_version": 3,
+    "name": "MOTIV8",
+    "version": "1.0",
+    "description": "This extension displays motivational messages at every time interval you specify.",
+    "permissions": ["notifications","storage","alarms","tabs"],
+    "background": {
+      "service_worker": "background.js"
+    },
+    "icons":{
+      "16": "img/icon/motiv8-16.png",
+      "48": "img/icon/motiv8-48.png",
+      "128": "img/icon/motiv8-128.png"
+    },
+    "action": {
+      "default_popup": "popup.html"
+    }
+  }
+  
