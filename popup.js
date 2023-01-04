@@ -17,10 +17,10 @@ function createAlarm(event){
     
     // Create the alarm
     chrome.alarms.create({periodInMinutes: minutes});
-    chrome.storage.sync.set({minutes: minutes}).then(()=>{
-      console.log("value is set to: + minutes");
+    chrome.storage.local.set({minutes: minutes}).then(()=>{
+      console.log("value is set to: "+ minutes);
     });
-    //window.close();
+    
 }
 
 // cancelAlarm function
@@ -32,13 +32,10 @@ function cancelAlarm(){
 
 // changeIcon function
 function changeIcon(chosenIcon){
-    chrome.runtime.sendMessage({
-        icon:`${chosenIcon}`
-    });
-    chrome.storage.sync.set({theme:chosenIcon}, function(){
-      console.log("Theme saved to storage: " + chosenIcon);
-    });
-    alert("Notification icon has been changed");
+  chrome.storage.local.set({theme:chosenIcon}, ()=>{
+    console.log("Theme saved to storage: " + chosenIcon);
+  });
+  alert("Notification icon has been changed");
 }
 
 let time = document.getElementById("start");

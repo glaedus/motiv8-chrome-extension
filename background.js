@@ -11,9 +11,7 @@ chrome.runtime.onInstalled.addListener(function (object) {
           console.log("New tab launched with your site");
       });
   }
-  chrome.storage.sync.get(["theme"], function(items){
-    console.log("Retrieved theme from storage: " + items.theme);
-  })
+  
 });
 
 // Array of all messages
@@ -50,60 +48,41 @@ function chooseCat(){
   return cat_file;
 }
 
-let theme = "default";
 
-chrome.runtime.onMessage.addListener(function(request, sender,sendResponse){
-  console.log("Received message to change icon to " + request.icon);
-  if (request.icon === "dogs"){
-    theme = "doggo";
-  }
-  else if (request.icon === "cats"){
-    theme = "cats";
-  }
-  else if (request.icon === "asian"){
-    theme = "mum";
-  }
-  else{
-    theme = "default";
-  }
-});
 
-chrome.alarms.onAlarm.addListener(() => {
-  chrome.action.setBadgeText({ text: 'ON' });
-  if (theme === "doggo"){
-    chrome.notifications.create({
-      type: 'basic',
-      iconUrl: chooseDog(),
-      title: 'HEY HOOMAN',
-      message: chooseMessage(),
-      priority: 2
-    });
-  }
-  else if (theme === "cats"){
-    chrome.notifications.create({
-      type: 'basic',
-      iconUrl: chooseCat(),
-      title: 'HEY HOOMAN',
-      message: chooseMessage(),
-      priority: 2
-    });
-  }
-  else if (theme === "default"){
-    chrome.notifications.create({
-      type: 'basic',
-      iconUrl: "img/confidence.jpeg",
-      title: 'HEY YOU',
-      message: chooseMessage(),
-      priority: 2
-    });
-  }
-  else if (theme === "mum"){
-    chrome.notifications.create({
-      type: 'basic',
-      iconUrl: "img/landlady.jpeg",
-      title: 'OI WEAKLING',
-      message: chooseMessage(),
-      priority: 2
-    });
-  }
-});
+var ThemeInfos = {
+  dogs : {
+    iconUrl : chooseDog(), 
+    title   : 'HEY HOOMAN'
+  },
+  cats : {
+    iconUrl : chooseCat(), 
+    title   : 'HEY HOOMAN'
+  },
+  asian : {
+    iconUrl : "img/landlady.jpeg", 
+    title   : 'OI WEAKLING'
+  },
+  default : {
+    iconUrl : "img/confidence.jpeg", 
+    title   : 'HEY YOU',
+  },
+}
+
+
+chrome.alarms.onAlarm.addListener(async() => {
+
+    chrome.action.setBadgeText({ text: 'ON' });
+
+    var {theme} = await chrome.storage.local.get("theme");
+
+    var theme = theme || "default";
+
+        chrome.notifications.create({
+          type: 'basic',
+          iconUrl: ThemeInfos[theme].iconUrl,
+          title: ThemeInfos[theme].title,
+          message: chooseMessage(),
+          priority: 2
+        });
+    })
